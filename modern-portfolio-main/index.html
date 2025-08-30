@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sidra Batool — Portfolio</title>
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Font Awesome Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --blue: #001f3f; /* Dark Blue */
+      --teal: #008080; /* Teal */
+      --text: #e6f6f6;
+      --muted: #b8d8d8;
+      --glass-bg: 20, 40, 60; /* rgb parts for glass */
+      --radius: 1.25rem;
+      --shadow: 0 20px 40px rgba(0,0,0,.35);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+      color: var(--text);
+      background: radial-gradient(1200px 800px at 10% -10%, rgba(0,128,128,.35), transparent 60%),
+                  radial-gradient(900px 600px at 110% 10%, rgba(0,31,63,.45), transparent 60%),
+                  linear-gradient(120deg, #000d1c, #001b36 40%, #002c52 70%, #03202a 100%);
+      overflow-x: hidden;
+    }
+
+    /* Animated global gradient veil */
+    .animated-gradient {
+      position: fixed; inset: -20vmax; z-index: -2;
+      background: radial-gradient(45vmax 45vmax at 20% 10%, rgba(0,128,128,.25), transparent 60%),
+                  radial-gradient(60vmax 60vmax at 80% 20%, rgba(0,31,63,.35), transparent 60%),
+                  conic-gradient(from 0deg at 50% 50%, rgba(0,128,128,.15), rgba(0,31,63,.15), rgba(0,128,128,.15));
+      filter: blur(40px) saturate(120%);
+      animation: swirl 15s linear infinite;
+    }
+    @keyframes swirl { to { transform: rotate(360deg); } }
+
+    /* Glassmorphism helper */
+    .glass {
+      background: rgba(var(--glass-bg), .25);
+      border: 1px solid rgba(255, 255, 255, .08);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+    }
+
+    /* Gradient text and accents */
+    .text-gradient {
+      background: linear-gradient(90deg, var(--teal), #00a0a0, #24b0ff, var(--teal));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      background-size: 200% 200%; animation: textflow 6s ease-in-out infinite;
+    }
+    @keyframes textflow { 0%,100% {background-position: 0% 50%} 50% {background-position: 100% 50%} }
+
+    /* Navbar */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1030;
+      background: linear-gradient(90deg, rgba(0,31,63,.6), rgba(0,128,128,.35));
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .navbar-brand { font-weight: 800; letter-spacing: .5px; }
+    .nav-link { color: var(--muted) !important; position: relative; font-weight: 500; }
+    .nav-link.active, .nav-link:focus, .nav-link:hover { color: #c8ffff !important; }
+    .nav-link::after {
+      content: ""; position: absolute; left: 0; bottom: -6px; height: 2px; width: 0;
+      background: linear-gradient(90deg, var(--teal), #24b0ff);
+      transition: width .3s ease; border-radius: 2px;
+    }
+    .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+
+    /* Hamburger to overlay */
+    .menu-toggle { border: none; outline: none; background: transparent; }
+    .menu-toggle .bar { display: block; width: 28px; height: 2px; margin: 6px 0; background: #cfe;
+      transition: transform .3s, opacity .3s; }
+    .menu-toggle.active .bar:nth-child(1){ transform: translateY(8px) rotate(45deg); }
+    .menu-toggle.active .bar:nth-child(2){ opacity: 0; }
+    .menu-toggle.active .bar:nth-child(3){ transform: translateY(-8px) rotate(-45deg); }
+
+    .overlay-menu { position: fixed; inset: 0; z-index: 1040; display: none; align-items: center; justify-content: center; }
+    .overlay-bg { position: absolute; inset: 0; background: radial-gradient(1200px 800px at 20% 10%, rgba(0,128,128,.25), transparent 60%), linear-gradient(135deg, rgba(0,31,63,.95), rgba(0,128,128,.85)); opacity: 0; transition: opacity .35s; }
+    .overlay-content { position: relative; z-index: 1; text-align: center; }
+    .overlay-menu.show { display: flex; }
+    .overlay-menu.show .overlay-bg { opacity: 1; }
+    .overlay-link { display: block; font-size: clamp(1.4rem, 4vw, 2.2rem); padding: .35rem 1rem; margin: .35rem 0; color: #eaffff; text-decoration: none; opacity: 0; transform: translateY(10px);
+      animation: fadeUp .6s forwards; }
+    .overlay-link:nth-child(1){ animation-delay: .05s }
+    .overlay-link:nth-child(2){ animation-delay: .1s }
+    .overlay-link:nth-child(3){ animation-delay: .15s }
+    .overlay-link:nth-child(4){ animation-delay: .2s }
+    .overlay-link:nth-child(5){ animation-delay: .25s }
+    .overlay-link:nth-child(6){ animation-delay: .3s }
+    .overlay-link:nth-child(7){ animation-delay: .35s }
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0) } }
+
+    /* Section base */
+    section { padding: 100px 0; position: relative; }
+    section .section-heading { font-weight: 800; letter-spacing: .5px; margin-bottom: 1.25rem; }
+    .subtle { color: var(--muted); }
+
+    /* Hero */
+    #hero { min-height: 100vh; display: grid; place-items: center; padding-top: 150px; }
+    .hero-wrap { display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; align-items: center; }
+    .hero-badges { display: flex; gap: .75rem; flex-wrap: wrap; }
+    .badge{padding: 8px 10px; color: #b0b1b1 ;}
+
+    .btn-gradient {
+      --g1: var(--teal); --g2: #005e5e; --g3: #1e90ff; --g4: #003b6b;
+      background: linear-gradient(135deg, var(--g1), var(--g3));
+      color: #eaffff; border: 0; padding: .9rem 1.2rem; border-radius: 999px; font-weight: 700;
+      box-shadow: 0 10px 25px rgba(0, 128, 128, .25);
+      transition: transform .2s ease, box-shadow .3s ease, filter .2s ease;
+    }
+    .btn-gradient:hover { transform: translateY(-2px); filter: brightness(1.05); box-shadow: 0 14px 35px rgba(30,144,255,.25); }
+
+    .btn-outline-glow { border-radius: 999px; padding: .9rem 1.2rem; color: #dff; font-weight: 700; background: transparent;
+      border: 2px solid rgba(0, 200, 200, .6); box-shadow: 0 0 0 0 rgba(0, 200, 200, .4); transition: box-shadow .3s, transform .2s; }
+    .btn-outline-glow:hover { box-shadow: 0 0 18px 4px rgba(0, 200, 200, .35); transform: translateY(-2px); }
+
+    .avatar-wrap { position: relative; width: clamp(200px, 35vw, 380px); aspect-ratio: 1; margin-inline: auto; }
+    .avatar-ring { position: absolute; inset: -5px; padding: 5px; border-radius: 100%; background:
+      conic-gradient(from 0deg, rgba(1, 137, 137, 0.5), rgba(52, 178, 251, 0.7), rgba(19, 248, 248, 0.5));
+      filter: blur(10px); animation: rotate 10s linear infinite; }
+    @keyframes rotate { to { transform: rotate(360deg) } }
+    .avatar { position: relative; height: 100%; width: auto; border-radius: 50%; overflow: hidden; border: 3px solid rgba(255,255,255,.18);
+      box-shadow: 0 0 10px rgba(0, 200, 200, .2),  rgba(0, 31, 63, .35); animation: floaty 5s ease-in-out infinite; }
+    @keyframes floaty { 0%,100%{ transform: translateY(0) } 50%{ transform: translateY(px) } }
+
+    /* About */
+    .about-card { padding: 2rem; }
+     .social-icon:hover {
+    color: #00c8c8;  /* teal on hover */
+    transform: translateY(-3px); /* thoda upar uthne ka effect */
+  }
+
+    /* Timeline */
+    .timeline { position: relative; margin-left: 1rem; padding-left: 2rem; }
+    .timeline::before { content: ""; position: absolute; left: 0.6rem; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--teal), rgba(255,255,255,.06)); }
+    .timeline-item { position: relative; margin-bottom: 2rem; opacity: 0; transform: translateY(10px); transition: all .6s ease; }
+    .timeline-item.show { opacity: 1; transform: translateY(0); }
+    .timeline-dot { position: absolute; left: -1.05rem; top: .2rem; width: 16px; height: 16px; border-radius: 50%; background: #003b6b; border: 3px solid var(--teal);
+      box-shadow: 0 0 0 0 rgba(0,128,128,.4); transition: box-shadow .3s; }
+    .timeline-item:hover .timeline-dot  { box-shadow: 0 0 18px 6px rgba(0,128,128,.35); }
+
+    /* Skills - circular charts */
+    .skills-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1rem; }
+    @media (max-width: 992px){ .skills-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 576px){ .skills-grid { grid-template-columns: repeat(2, 1fr); } }
+    .skill-card { 
+      text-align: center; 
+      padding: 1rem; 
+      transition: box-shadow 0.3s, transform 0.3s;
+    }
+    .skill-card:hover {
+      box-shadow: 0 8px 24px rgba(0,128,128,0.35); /* teal shadow */
+      transform: scale(1.5);
+      z-index: 2;
+    }
+    .circle { --size: 140px; z-index: -2; width: var(--size); height: var(--size); border-radius: 50%; margin: 0 auto 10px; display: grid; place-items: center; position: relative; }
+    .circle::before { content: ""; position: absolute; inset: 0; border-radius: 50%; padding: 8px; background: conic-gradient(var(--teal) var(--deg), rgba(255,255,255,.08) 0); -webkit-mask: radial-gradient(farthest-side, transparent calc(50% - 14px), #000 calc(50% - 13px)); mask: radial-gradient(farthest-side, transparent calc(50% - 14px), #000 calc(50% - 13px)); box-shadow: inset 0 0 18px rgba(0,31,63,.6); transition: filter .3s; }
+    .circle .label { font-weight: 800; z-index: -2; font-size: 1rem; }
+    .circle:hover::before { filter: drop-shadow(0 0 12px rgba(0,128,128,.35)); }
+
+    /* Projects */
+    .project-card { overflow: hidden; transition: transform .3s ease, box-shadow .3s ease; }
+    .project-media { position: relative; overflow: hidden; }
+    .project-media img { width: 100%; height: 220px; object-fit: cover; transition: transform .5s ease; }
+    .project-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,128,128,0) 0%, rgba(0,128,128,.35) 100%); opacity: 0; transition: opacity .35s ease; }
+    .project-card:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(0,0,0,.35); }
+    .project-card:hover .project-media img { transform: scale(1.08); }
+    .project-card:hover .project-overlay { opacity: 1; }
+
+    /* Testimonials */
+    .quote-icon { font-size: 2rem; filter: drop-shadow(0 6px 14px rgba(0,128,128,.35)); }
+
+    /* Contact */
+    .form-control, .form-select { background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.12); color: var(--text); }
+    .form-control:focus { color: #eaffff; background: rgba(255,255,255,.05); border-color: rgba(0,200,200,.7); box-shadow: 0 0 0 .25rem rgba(0,200,200,.15); }
+
+    /* Footer */
+    footer { background: linear-gradient(90deg, var(--blue), var(--teal)); }
+
+    /* Reveal on scroll */
+    .reveal { opacity: 0; transform: translateY(12px); transition: all .7s ease; }
+    .reveal.show { opacity: 1; transform: translateY(0); }
+
+    /* Hide navbar links/collapse on small screens, show logo + hamburger */
+    @media (max-width: 991.98px) {
+      .navbar-collapse {
+        display: none !important;
+      }
+      .navbar {
+        display: flex !important;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .navbar .navbar-brand {
+        display: block !important;
+      }
+      .navbar .menu-toggle {
+        display: inline-block !important;
+      }
+    }
+    @media (min-width: 992px) {
+      .navbar .menu-toggle {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="animated-gradient" aria-hidden="true"></div>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container py-2">
+      <a class="navbar-brand text-white" href="#hero">My<span class="text-gradient">Portfolio</span></a>
+      <button class="menu-toggle d-lg-none" aria-label="Toggle navigation" id="menuToggle">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="#hero">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#resume">Resume</a></li>
+          <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
+          <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+          <li class="nav-item"><a class="nav-link" href="#testimonials">Testimonials</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Overlay menu for mobile -->
+  <div class="overlay-menu" id="overlayMenu" aria-hidden="true">
+    <div class="overlay-bg"></div>
+    <div class="overlay-content">
+      <a class="overlay-link" href="#hero">Home</a>
+      <a class="overlay-link" href="#about">About</a>
+      <a class="overlay-link" href="#resume">Resume</a>
+      <a class="overlay-link" href="#skills">Skills</a>
+      <a class="overlay-link" href="#projects">Projects</a>
+      <a class="overlay-link" href="#testimonials">Testimonials</a>
+      <a class="overlay-link" href="#contact">Contact</a>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <section id="hero">
+    <div class="container">
+      <div class="hero-wrap">
+        <div class="hero-left reveal">
+          <h1 class="display-5 fw-bold">Hi, I’m <span class="text-gradient">Sidra Batool</span></h1>
+          <p class="lead mb-2">Frontend Developer | React & Next.js Specialist</p>
+          <p class="subtle mb-4">I create modern, elegant, and responsive web experiences that bring ideas to life.</p>
+          <div class="d-flex gap-3   mt-5 flex-wrap">
+            <a download href="assets/cv.pdf" class="btn btn-gradient">
+  <i class="fa-solid fa-file-arrow-down me-2"></i>Download CV
+</a>
+
+            <a href="#contact" class="btn btn-outline-glow"><i class="fa-solid fa-paper-plane me-2"></i>Hire Me</a>
+          </div>
+          <div class="hero-badges mt-5">
+            <span class="badge  glass">#HTML</span>
+            <span class="badge glass">#CSS</span>
+            <span class="badge  glass">#JavaScript</span>
+            <span class="badge glass">#React</span>
+            <span class="badge  glass">#Next.js</span>
+            <span class="badge  glass">#Bootstrap</span>
+          </div>
+        </div>
+        <div class="hero-right reveal">
+          <div class="avatar-wrap">
+            <div class="avatar-ring"></div>
+            <img class="avatar w-100" src="assets/img/maa.png" alt="Profile" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<!-- About -->
+<section id="about">
+  <div class="container">
+    <div class="row g-4 align-items-center">
+      
+      <!-- Left Image -->
+      <div class="col-lg-5">
+        <div class="glass about-card reveal">
+          <img class="w-100 rounded-4" src="assets/img/maa.png" alt="About photo" />
+        </div>
+      </div>
+
+      <!-- Right Content -->
+      <div class="col-lg-7">
+        <div class="reveal">
+          <h2 class="section-heading">About <span class="text-gradient">Me</span></h2>
+          <p class="subtle mb-3">
+              I’m <strong style="color: #ffffff;">Sidra Batool</strong>, a creative web developer with a focus on building elegant and efficient digital solutions. 
+  I enjoy learning new technologies and crafting experiences that make an impact. 
+  I specialize in modern frontend frameworks like <strong style="color: #ffffff;">React</strong> and <strong style="color: #ffffff;">Next.js</strong> to build responsive and dynamic web apps. 
+  My goal is to combine clean code with stunning design to deliver seamless user experiences.
+          </p>
+
+       <div class="row" style="margin-top:20px;">
+
+  <!-- Left Column -->
+  <div class="col-md-6">
+    <ul style="list-style:none; padding:0; margin:0;">
+      <li style="margin-bottom:12px; display:flex; align-items:center; gap:8px; color:#cccccc;">
+        <i class="fa-solid fa-angles-right" style="color:#00c8c8;"></i>
+        <strong style="color:#ffffff;">Birthday:</strong> <span style="color:#cccccc;">01 Sep 2006</span>
+      </li>
+      <li style="margin-bottom:12px; display:flex; align-items:center; gap:8px; color:#cccccc;">
+        <i class="fa-solid fa-angles-right" style="color:#00c8c8;"></i>
+        <strong style="color:#ffffff;">Country:</strong> <span style="color:#cccccc;">Pakistan</span>
+      </li>
+      <li style="margin-bottom:12px; display:flex; align-items:center; gap:8px; color:#cccccc;">
+        <i class="fa-solid fa-angles-right" style="color:#00c8c8;"></i>
+        <strong style="color:#ffffff;">Age:</strong> <span style="color:#cccccc;">19</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Right Column -->
+  <div class="col-md-6">
+    <ul style="list-style:none; padding:0; margin:0;">
+      <li style="margin-bottom:12px; display:flex; align-items:center; gap:8px; color:#cccccc;">
+        <i class="fa-solid fa-angles-right" style="color:#00c8c8;"></i>
+        <strong style="color:#ffffff;">Degree:</strong> <span style="color:#cccccc;">FSc Computer Science</span>
+      </li>
+      <li style="margin-bottom:12px; display:flex; align-items:center; gap:8px; color:#cccccc;">
+        <i class="fa-solid fa-angles-right" style="color:#00c8c8;"></i>
+        <strong style="color:#ffffff;">Email:</strong> <a href="mailto:batool.sidra2008@example.com" 
+   style="color:#ccc; text-decoration:none;" 
+   onmouseover="this.style.color='#00c8c8';" 
+   onmouseout="this.style.color='#ccc'; this.style.textDecoration='none';">
+   batool.sidra2008@example.com
+</a>
+
+      </li>
+      <li style="margin-bottom:12px; display:flex; align-items:center; gap:8px; color:#cccccc;">
+        <i class="fa-solid fa-angles-right" style="color:#00c8c8;"></i>
+        <strong style="color:#ffffff;">Freelance:</strong> <span style="color:#cccccc;">Available</span>
+      </li>
+    </ul>
+  </div>
+
+</div>
+
+
+
+
+          <!-- Social Links -->
+          <div class="d-flex gap-3 mt-3">
+            <a class="btn social-icon btn-outline-glow" href="https://www.linkedin.com/in/sidra-batool-873319379/" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin"></i></a>
+            <a class="btn social-icon btn-outline-glow" href="hhttps://github.com/sidraBatool12" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i></a>
+            <a class="btn social-icon btn-outline-glow" href="https://www.instagram.com/sidra_batool329/" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i></a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+  <!-- Resume -->
+  <section id="resume">
+    <div class="container">
+      <div class="row mb-4">
+        <div class="col-12 text-center reveal">
+          <h2 class="section-heading">Resume <span class="text-gradient">Timeline</span></h2>
+          <p class="subtle">Passionate and detail-oriented Web Developer with experience building responsive and user-friendly websites using React, Next.js, Node.js, and modern web technologies. Skilled in turning ideas into efficient digital solutions from concept to deployment.</p>
+        </div>
+      </div>
+     <div class="row g-4">
+  <!-- Education Column -->
+  <div class="col-lg-6">
+    <h3 class="mb-4 text-gradient">Education</h3>
+    <div class="timeline">
+      <div class="timeline-item glass p-4 rounded-4 mb-4">
+        <span class="timeline-dot"></span>
+        <h5 class="mb-1">
+          <i class="fa-solid fa-graduation-cap"></i> 
+          FSc Computer Science <br> The Learning Academy
+          <span class="subtle">(2023–2025)</span>
+        </h5>
+        <p class="mb-0 subtle mt-3">Focused on computer science subjects, programming basics, and IT fundamentals, which laid the foundation for a career in web development.</p>
+      </div>
+
+      <div class="timeline-item glass p-4 rounded-4">
+        <span class="timeline-dot"></span>
+        <h5 class="mb-1">
+          <i class="fa-solid fa-school"></i> 
+          High School <br> Fauji Foundation School
+          <span class="subtle">(2017–2023)</span>
+        </h5>
+        <p class="mb-0 subtle mt-3">Focused on computer science subjects, programming basics, and IT fundamentals, which laid the foundation for a career in web development.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Experience Column -->
+  <div class="col-lg-6">
+    <h3 class="mb-4 text-gradient">Experience</h3>
+    <div class="timeline">
+      <div class="timeline-item glass p-4 rounded-4 mb-4">
+        <span class="timeline-dot"></span>
+        <h5 class="mb-1">
+          <i class="fa-solid fa-briefcase"></i> 
+          Frontend Developer Intern <br> Binary Hub
+          <span class="subtle">(2023)</span>
+        </h5>
+        <p class="mb-0 subtle mt-3">Contributed to building modern web interfaces, improved performance, and collaborated with teams on React & Next.js projects.</p>
+      </div>
+
+      <div class="timeline-item glass p-4 rounded-4">
+        <span class="timeline-dot"></span>
+        <h5 class="mb-1">
+          <i class="fa-solid fa-laptop-code"></i> 
+          Freelance Web Developer 
+          <span class="subtle">(2024–Present)</span>
+        </h5>
+        <p class="mb-0 subtle mt-3">Developed responsive and interactive websites for clients, focusing on modern design, optimized performance, and seamless user experience.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Inline CSS -->
+<style>
+  .timeline-item i {
+    color: #aaa; /* default grey */
+    transition: color 0.3s ease;
+  }
+  .timeline-item:hover i {
+    color: #008080; /* teal on card hover */
+     text-shadow: 0 0 8px rgba(0,128,128,0.6);
+  }
+</style>
+
+
+
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills">
+    <div class="container">
+      <div class="row mb-4">
+        <div class="col-12 text-center reveal">
+          <h2 class="section-heading">Skills & <span class="text-gradient">Expertise</span></h2>
+          <p class="subtle">Proficient in JavaScript, React, Next.js, HTML, CSS, Tailwind CSS, and Git; skilled in building responsive, user-friendly, and efficient web applications</p>
+        </div>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-card glass rounded-4 reveal">
+          <div class="circle" data-percent="95"><span class="label">95%</span></div>
+          <div>HTML</div>
+        </div>
+        <div class="skill-card glass rounded-4 reveal">
+          <div class="circle" data-percent="90"><span class="label">90%</span></div>
+          <div>CSS</div>
+        </div>
+        <div class="skill-card glass rounded-4 reveal">
+          <div class="circle" data-percent="85"><span class="label">85%</span></div>
+          <div>JavaScript</div>
+        </div>
+        <div class="skill-card glass rounded-4 reveal">
+          <div class="circle" data-percent="80"><span class="label">80%</span></div>
+          <div>React</div>
+        </div>
+        <div class="skill-card glass rounded-4 reveal">
+          <div class="circle" data-percent="75"><span class="label">75%</span></div>
+          <div>Next.js</div>
+        </div>
+        <div class="skill-card glass rounded-4 reveal">
+          <div class="circle" data-percent="70"><span class="label">70%</span></div>
+          <div>Tailwind CSS</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+ <!-- Services -->
+<section id="services" class="py-5">
+  <div class="container">
+    <div class="reveal text-center mb-5">
+      <h2 class="section-heading">My <span class="text-gradient">Services</span></h2>
+      <p class="subtle">Offering web development services including responsive website design, frontend development with React & Next.js, and UI/UX optimization for seamless user experiences</p>
+    </div>
+
+    <div class="row g-4">
+      <!-- Service 1 -->
+      <div class="col-lg-4 col-md-6">
+        <div class="glass p-4 rounded-4 text-center service-card">
+          <i class="fa-solid fa-code fa-2x mb-3"></i>
+          <h5 class="mb-2">Web Development</h5>
+          <p class="subtle mb-0">Building modern, responsive, and optimized websites tailored to client needs.</p>
+        </div>
+      </div>
+
+      <!-- Service 2 -->
+      <div class="col-lg-4 col-md-6">
+        <div class="glass p-4 rounded-4 text-center service-card">
+          <i class="fa-solid fa-paintbrush fa-2x mb-3"></i>
+          <h5 class="mb-2">UI/UX Design</h5>
+          <p class="subtle mb-0">Creating clean, user-friendly, and engaging interfaces with focus on experience.</p>
+        </div>
+      </div>
+
+      <!-- Service 3 -->
+      <div class="col-lg-4 col-md-6">
+        <div class="glass p-4 rounded-4 text-center service-card">
+          <i class="fa-solid fa-mobile-screen fa-2x mb-3"></i>
+          <h5 class="mb-2">Responsive Design</h5>
+          <p class="subtle mb-0">Ensuring seamless experience across all devices with mobile-first approach.</p>
+        </div>
+      </div>
+
+      <!-- Service 4 -->
+      <div class="col-lg-4 col-md-6">
+        <div class="glass p-4 rounded-4 text-center service-card">
+          <i class="fa-solid fa-database fa-2x mb-3"></i>
+          <h5 class="mb-2">Backend Development</h5>
+          <p class="subtle mb-0">Building secure, scalable, and high-performing server-side applications.</p>
+        </div>
+      </div>
+
+      <!-- Service 5 -->
+      <div class="col-lg-4 col-md-6">
+        <div class="glass p-4 rounded-4 text-center service-card">
+          <i class="fa-solid fa-bullhorn fa-2x mb-3"></i>
+          <h5 class="mb-2">Digital Marketing</h5>
+          <p class="subtle mb-0">Helping brands grow online with SEO, content, and social media strategies.</p>
+        </div>
+      </div>
+
+      <!-- Service 6 -->
+      <div class="col-lg-4 col-md-6">
+        <div class="glass p-4 rounded-4 text-center service-card">
+          <i class="fa-solid fa-shield-halved fa-2x mb-3"></i>
+          <h5 class="mb-2">Web Security</h5>
+          <p class="subtle mb-0">Implementing security practices to protect websites and user data.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .service-card i {
+    color: #aaa;
+    transition: all 0.3s ease;
+  }
+
+  .service-card {
+    transition: all 0.3s ease;
+  }
+
+  .service-card:hover {
+    box-shadow: 0 8px 20px rgba(0,128,128,0.25); /* teal shadow */
+    transform: translateY(-5px);
+  }
+
+  .service-card:hover i {
+    color: #008080; /* teal */
+    text-shadow: 0 0 10px rgba(0,128,128,0.6); /* teal glow */
+  }
+</style>
+
+
+  <!-- Projects -->
+  <section id="projects">
+    <div class="container">
+      <div class="row mb-4">
+        <div class="col-12 text-center reveal">
+          <h2 class="section-heading">Featured <span class="text-gradient">Projects</span></h2>
+          <p class="subtle">A selection of work that showcases quality and attention to detail.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+        <!-- 6 project cards -->
+        <div class="col-md-6 col-lg-4">
+          <div class="project-card glass rounded-4 reveal h-100">
+            <div class="project-media">
+              <img src="assets/img/redot.png" alt="Project 1" />
+              <div class="project-overlay"></div>
+            </div>
+            <div class="p-3">
+              <h5 class="mb-1">E-commerce Website</h5>
+              <p class="subtle">A modern storefront with secure checkout and responsive design.</p>
+              <a class="btn btn-outline-glow btn-sm" href="https://github.com/sidraBatool12/reddot-site" target="_blank" rel="noopener">View Project</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="project-card glass rounded-4 reveal h-100">
+            <div class="project-media">
+              <img src="assets/img/upda.png" alt="Project 2" />
+              <div class="project-overlay"></div>
+            </div>
+            <div class="p-3">
+              <h5 class="mb-1">SaaS Dashboard</h5>
+              <p class="subtle">Analytics dashboard with dynamic charts and role-based access.</p>
+              <a class="btn btn-outline-glow btn-sm" href="https://github.com/sidraBatool12/QUIK-buy" target="_blank" rel="noopener">View Project</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="project-card glass rounded-4 reveal h-100">
+            <div class="project-media">
+              <img src="assets/img/port.png" alt="Project 3" />
+              <div class="project-overlay"></div>
+            </div>
+            <div class="p-3">
+              <h5 class="mb-1">Portfolio Template</h5>
+              <p class="subtle">Clean and elegant template for designers and developers.</p>
+              <a class="btn btn-outline-glow btn-sm" href="https://github.com/sidraBatool12/next-js-portfolio" target="_blank" rel="noopener">View Project</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="project-card glass rounded-4 reveal h-100">
+            <div class="project-media">
+              <img src="assets/img/ahmed communication.png" alt="Project 4" />
+              <div class="project-overlay"></div>
+            </div>
+            <div class="p-3">
+              <h5 class="mb-1">Communication Website</h5>
+              <p class="subtle">Communication website crafted for effortless user interaction.</p>
+              <a class="btn btn-outline-glow btn-sm" href="https://admed-communication.netlify.app/" target="_blank" rel="noopener">View Project</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="project-card glass rounded-4 reveal h-100">
+            <div class="project-media">
+              <img src="assets/img/lib.png" alt="Project 5" />
+              <div class="project-overlay"></div>
+            </div>
+            <div class="p-3">
+              <h5 class="mb-1">Historics Page</h5>
+              <p class="subtle">Historic website designed to showcase events with clarity and engagement..</p>
+              <a class="btn btn-outline-glow btn-sm" href="https://github.com/sidraBatool12/Libea" target="_blank" rel="noopener">View Project</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="project-card glass rounded-4 reveal h-100">
+            <div class="project-media">
+              <img src="assets/img/port folio.png" alt="Project 6" />
+              <div class="project-overlay"></div>
+            </div>
+            <div class="p-3">
+              <h5 class="mb-1">Portfolio Template</h5>
+              <p class="subtle">Clean and elegant template for designers and developers.</p>
+              <a class="btn btn-outline-glow btn-sm" href="https://github.com/sidraBatool12/personal-portfolio-" target="_blank" rel="noopener">View Project</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- Testimonials -->
+<section id="testimonials" class="py-5">
+  <div class="container">
+    <div class="row mb-4">
+      <div class="col-12 text-center reveal">
+        <h2 class="section-heading"><span class="text-gradient">Testimonials</span></h2>
+        <p class="subtle">Hear what clients and collaborators say about my work, professionalism, and dedication to delivering high-quality web development solutions.</p>
+      </div>
+    </div>
+
+    <!-- Carousel Wrapper with Theme Shadow + Glass Effect -->
+    <div id="testimonialCarousel" 
+         class="carousel slide rounded-4 p-4 glass shadow-lg" 
+         data-bs-ride="carousel"
+         style="background: rgba(255,255,255,0.08); backdrop-filter: blur(12px);">
+
+      <div class="carousel-inner">
+
+        <!-- Testimonial 1 -->
+        <div class="carousel-item active">
+          <div class="row justify-content-center">
+            <div class="col-lg-10">
+              <div class="p-4 text-center">
+                <p class="lead fst-italic mb-3 text-light">
+                  <i class="fa-solid fa-quote-left fa-2x text-gradient me-2"></i>
+                  Sidra’s work ethic and innovative approach set a high standard. She consistently delivers results that align with both quality and vision.
+                  <i class="fa-solid fa-quote-right fa-2x text-gradient ms-2"></i>
+                </p>
+                <div class="d-flex justify-content-center align-items-center mt-3">
+                  <img src="assets/img/tehseeen.jpg" alt="Client" 
+                       class="rounded-circle me-3 shadow-sm" 
+                       style="width:65px; height:65px; object-fit:cover;">
+                  <div class="text-start">
+                    <h6 class="mb-0 fw-bold text-white">Mr. Tehseen</h6>
+                    <small class="subtle">Chairman</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial 2 -->
+        <div class="carousel-item">
+          <div class="row justify-content-center">
+            <div class="col-lg-10">
+              <div class="p-4 text-center">
+                <p class="lead fst-italic mb-3 text-light">
+                  <i class="fa-solid fa-quote-left fa-2x text-gradient me-2"></i>
+                  Sidra is reliable, innovative, and result-driven. Her contribution has been key to our success.
+                  <i class="fa-solid fa-quote-right fa-2x text-gradient ms-2"></i>
+                </p>
+                <div class="d-flex justify-content-center align-items-center mt-3">
+                  <img src="assets/img/ri.png" alt="Client" 
+                       class="rounded-circle me-3 shadow-sm" 
+                       style="width:65px; height:65px; object-fit:cover;">
+                  <div class="text-start">
+                    <h6 class="mb-0 fw-bold text-white">SMr. Rizwan</h6>
+                    <small class="subtle">Ceo</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial 3 -->
+        <div class="carousel-item">
+          <div class="row justify-content-center">
+            <div class="col-lg-10">
+              <div class="p-4 text-center">
+                <p class="lead fst-italic mb-3 text-light">
+                  <i class="fa-solid fa-quote-left fa-2x text-gradient me-2"></i>
+                  Sidra is an excellent team player who collaborates seamlessly and always motivates others with her positive energy and problem-solving mindset
+                  <i class="fa-solid fa-quote-right fa-2x text-gradient ms-2"></i>
+                </p>
+                <div class="d-flex justify-content-center align-items-center mt-3">
+                  <img src="assets/img/sir fara.jpg" alt="Client" 
+                       class="rounded-circle me-3 shadow-sm" 
+                       style="width:65px; height:65px; object-fit:cover;">
+                  <div class="text-start">
+                    <h6 class="mb-0 fw-bold text-white">Mr. Farazsat Ali</h6>
+                    <small class="subtle">Team Leader</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Controls -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="container">
+      <div class="row mb-4">
+        <div class="col-12 text-center reveal">
+          <h2 class="section-heading">Get In <span class="text-gradient">Touch</span></h2>
+          <p class="subtle">Let’s build something great together, combining creativity, technology, and dedication to bring your vision to life.</p>
+        </div>
+      </div>
+      <div class="row g-4 align-items-stretch">
+        <div class="col-lg-7">
+          <div class="glass rounded-4 p-4 h-100 reveal">
+      <form id="contactForm">
+  <div class="row g-3">
+    <div class="col-md-6">
+      <label class="form-label">Name</label>
+      <input type="text" name="from_name" class="form-control" required />
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Email</label>
+      <input type="email" name="from_email" class="form-control" required />
+    </div>
+    
+    <div class="col-12">
+      <label class="form-label">Message</label>
+      <textarea name="message" class="form-control" rows="5" required></textarea>
+    </div>
+    <div class="col-12 position-relative">
+      <button type="submit" class="btn btn-gradient">
+        <i class="fa-solid fa-paper-plane me-2"></i>Send Message
+      </button>
+      <!-- Inline message container -->
+      <div id="formMessage" class="mt-2" style="font-weight:500; color:#cccccc;"></div>
+    </div>
+  </div>
+</form>
+
+
+
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="glass rounded-4 p-4 h-100 reveal">
+            <h5>Contact Info</h5>
+           <ul class="list-unstyled subtle mb-4">
+  <li class="mb-2">
+    <a href="mailto:batool.sidra@gmail.com" 
+       style="color:#cccccc; text-decoration:none; transition:color 0.3s;"
+       onmouseover="this.style.color='teal'" 
+       onmouseout="this.style.color='#cccccc'">
+      <i class="fa-solid fa-envelope me-2"></i> batool.sidra@gmail.com
+    </a>
+  </li>
+  
+  <li class="mb-2">
+    <span style="color:#cccccc; cursor:pointer;" 
+      onmouseover="this.querySelector('i').style.color='teal'" 
+      onmouseout="this.querySelector('i').style.color='#cccccc'">
+  <i class="fa-solid fa-location-dot me-2" style="color:#cccccc; transition:color 0.3s;"></i>
+  Gilgit-Baltistan, Pakistan
+</span>
+
+  </li>
+</ul>
+
+             <!-- Social Links -->
+          <div class="d-flex gap-3 mt-3">
+            <a class="btn social-icon btn-outline-glow" href="https://www.linkedin.com/in/sidra-batool-873319379/" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin"></i></a>
+            <a class="btn social-icon btn-outline-glow" href="hhttps://github.com/sidraBatool12" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i></a>
+            <a class="btn social-icon btn-outline-glow" href="https://www.instagram.com/sidra_batool329/" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i></a>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-center py-4">
+    <div class="container">
+      
+      <small class="text-white-50">© 2025 <a href="https://www.linkedin.com/in/sidra-batool-873319379/" 
+   target="_blank" rel="noopener"
+   style="color:#c3f2f2; text-decoration:none; transition:color 0.3s;"
+   onmouseover="this.style.color='teal'"
+   onmouseout="this.style.color='#cccccc'">
+   Sidra Batool
+</a>. All rights reserved.</small>
+    </div>
+  </footer>
+
+  <!-- Bootstrap + JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Add EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>
+    // Smoothly close navbar collapse when clicking links (desktop)
+    document.querySelectorAll('.navbar .nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        const bsCollapse = bootstrap.Collapse.getOrCreateInstance(document.getElementById('navbarSupportedContent'));
+        bsCollapse.hide();
+      });
+    });
+
+    // Active link highlighting on scroll
+    const sections = ['hero','about','resume','skills','projects','testimonials','contact'].map(id => document.getElementById(id));
+    const navLinks = Array.from(document.querySelectorAll('.navbar .nav-link'));
+    const setActive = () => {
+      let index = 0;
+      sections.forEach((sec, i) => {
+        const rect = sec.getBoundingClientRect();
+        if (rect.top <= 120) index = i; // header offset
+      });
+      navLinks.forEach(l => l.classList.remove('active'));
+      navLinks[index].classList.add('active');
+    };
+    window.addEventListener('scroll', setActive); setActive();
+
+   // Select all elements on the page
+const elements = document.querySelectorAll('body *');
+
+// Create Intersection Observer
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      entry.target.classList.add('show');
+      observer.unobserve(entry.target); // optional, stop observing after showing
+    }
+  });
+}, { threshold: 0.1 });
+
+// Add 'reveal' class to all elements and observe
+elements.forEach(el => {
+  // Optional: skip invisible elements like script, style
+  if(el.offsetParent !== null) {
+    el.classList.add('reveal');
+    observer.observe(el);
+  }
+});
+
+
+    // Circular charts animation
+    const circles = document.querySelectorAll('.circle');
+    const circleObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const p = parseInt(el.dataset.percent, 10) || 0;
+          let cur = 0;
+          const step = () => {
+            cur += 2; if (cur > p) cur = p;
+            el.style.setProperty('--deg', (cur/100)*360 + 'deg');
+            if (cur < p) requestAnimationFrame(step);
+          };
+          requestAnimationFrame(step);
+          circleObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.4 });
+    circles.forEach(c => circleObserver.observe(c));
+
+    // Mobile overlay menu
+    const menuToggle = document.getElementById('menuToggle');
+    const overlayMenu = document.getElementById('overlayMenu');
+    const overlayLinks = overlayMenu.querySelectorAll('.overlay-link');
+    const toggleOverlay = () => {
+      const isOpen = overlayMenu.classList.toggle('show');
+      menuToggle.classList.toggle('active', isOpen);
+      overlayMenu.setAttribute('aria-hidden', String(!isOpen));
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    };
+    menuToggle.addEventListener('click', toggleOverlay);
+    overlayLinks.forEach(l => l.addEventListener('click', toggleOverlay));
+// Initialize EmailJS
+emailjs.init('RR2I17EUvmz-sJOLw'); // ✅ ye aapka public key hai, sahi hai
+
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+  e.preventDefault(); // Prevent page reload
+
+  const formMessage = document.getElementById('formMessage');
+  formMessage.style.color = '#008080'; // Teal sending
+  formMessage.textContent = 'Sending message...';
+
+  // ✅ Yahan apne EmailJS ke SERVICE aur TEMPLATE IDs dalne hain
+  const serviceID = 'service_1hb7nds';   // e.g. "service_123abc"
+  const templateID = 'template_nnw2a83'; // e.g. "template_xyz456"
+
+  emailjs.sendForm(serviceID, templateID, this)
+    .then(() => {
+      formMessage.style.color = '#00ffff'; // Cyan success
+      formMessage.textContent = '✅ Message sent successfully!';
+      this.reset(); // Clear form fields
+      // Remove message after 5 seconds
+      setTimeout(() => {
+        formMessage.textContent = '';
+      }, 5000);
+    }, (error) => {
+      formMessage.style.color = '#ff6b6b'; // Red error
+      formMessage.textContent = '❌ Message could not be sent. Please try again.';
+      console.error('EmailJS Error:', error);
+       setTimeout(() => {
+        formMessage.textContent = '';
+      }, 5000);
+    });
+});
+
+    // Close overlay if window resized to desktop
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 992 && overlayMenu.classList.contains('show')) toggleOverlay();
+    });
+  </script>
+</body>
+</html>
